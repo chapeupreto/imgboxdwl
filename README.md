@@ -9,7 +9,9 @@ Easily download all images from an [imgbox.com](http://imgbox.com/) gallery.
 
 # Installation
 
-`git clone https://github.com/chapeupreto/imgboxdwl.git` and then `chmod +x imgboxdwl`
+```bash
+git clone https://github.com/chapeupreto/imgboxdwl.git && cd imgboxdwl && chmod +x imgboxdwl
+```
 
 # Usage
 
