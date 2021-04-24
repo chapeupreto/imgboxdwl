@@ -35,7 +35,7 @@ function extract_name {
 function number_of_images_in_the_gallery {
 	local url="$1"
 
-	curl -s "${url}" | grep -o -E "\\d+ images" | cut -f1 -d" "
+	curl -s "${url}" | grep -o -E "[0-9]+ image" | cut -f1 -d" "
 }
 
 function is_imgbox_gallery_url {
@@ -73,7 +73,7 @@ mkdir -p "${gallery_name}" && cd "${gallery_name}"
 
 printf "\\n\\nAbout to save %d images to folder %s/\\n\\n" $(number_of_images_in_the_gallery "${gallery_url}") "${gallery_name}"
 
-for url in $(curl -s "${gallery_url}" | grep -E -o 'thumbs\d+.*"' | tr -d '"'); do
+for url in $(curl -s "${gallery_url}" | grep -E -o 'thumbs[0-9]+.*"' | tr -d '"'); do
 
 	printf -v link "https://imgbox.com/%s" $(extract_name "${url}")
 	temp=$(curl -s "${link}" | grep -E -o 'https?.*download=true')
