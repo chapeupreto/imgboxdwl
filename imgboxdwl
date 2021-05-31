@@ -80,9 +80,10 @@ if [[ ! $i -ge $(number_of_images_in_the_gallery "${gallery_url}") ]]; then
 
 	printf -v link "https://imgbox.com/%s" $(extract_name "${url}")
 	temp=$(curl -s "${link}" | grep -E -o 'https?.*download=true')
+        temp2="$(echo ${temp%%\?*})";extension="${temp2##*.}"
 
-#	curl -O -# $(seq -w "$i"|grep "$i")_"${temp%%\?*}"
-        curl -o $(printf "%03d\n" $i)_$(extract_name "${url}").jpg "${temp%%\?*}"
+        curl -o $(printf "%03d\n" $i)_$(extract_name "${url}")."$extension" -O -# "${temp%%\?*}"
+
 
 fi
 
