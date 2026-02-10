@@ -35,7 +35,7 @@ function extract_name {
 function number_of_images_in_the_gallery {
 	local url="$1"
 
-	curl -s "${url}" | grep -o -E "[0-9]+ image" | cut -f1 -d" "
+	curl -H "User-Agent: Mozilla/5.0" -s "${url}" | grep -o -E "[0-9]+ image" | cut -f1 -d" "
 }
 
 function is_imgbox_gallery_url {
@@ -73,12 +73,12 @@ mkdir -p "${gallery_name}" && cd "${gallery_name}"
 
 printf "\\n\\nAbout to save %d images to folder %s/\\n\\n" $(number_of_images_in_the_gallery "${gallery_url}") "${gallery_name}"
 
-for url in $(curl -s "${gallery_url}" | grep -E -o 'thumbs[0-9]+.*"' | tr -d '"'); do
+for url in $(curl -H "User-Agent: Mozilla/5.0" -s "${gallery_url}" | grep -E -o 'thumbs[0-9]+.*"' | tr -d '"'); do
 
 	printf -v link "https://imgbox.com/%s" $(extract_name "${url}")
-	temp=$(curl -s "${link}" | grep -E -o 'https?.*download=true')
+	temp=$(curl -H "User-Agent: Mozilla/5.0" -s "${link}" | grep -E -o 'https?.*download=true')
 
-	curl -O -# ${temp%%\?*}
+	curl -H "User-Agent: Mozilla/5.0" -# -O ${temp%%\?*}
 done
 
 printf "\\n\\n%s images were saved to folder %s/\\n\\n" $(find . -type f | wc -l) "${gallery_name}"
